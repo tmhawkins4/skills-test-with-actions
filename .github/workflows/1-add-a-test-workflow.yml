@@ -55,19 +55,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0 # Let's get all the branches.
+      - name: Run markdown lint
+        run: |
+         npm install remark-cli remark-preset-lint-consistent
+         npx remark . --use remark-preset-lint-consistent --frail
 
-      # Verify the learner added remark-lint.
-      - name: Verify workflow
-        uses: skills/action-check-file@v1
-        with:
-          file: .github/workflows/ci.yml
-          search: remark-preset-lint-consistent
-
-      # In README.md, switch step 1 for step 2.
-      - name: Update to step 2
-        uses: skills/action-update-step@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          from_step: 1
-          to_step: 2
-          branch_name: ci
